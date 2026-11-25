@@ -40,7 +40,7 @@
                 type="button"
                 @click="useAccount(a)"
               >
-                <span class="acc-role" :class="'r-' + a.userType.toLowerCase()">{{ a.roleLabel }}</span>
+                <span class="acc-role">{{ a.roleLabel }}</span>
                 <span class="acc-user">{{ a.username }}</span>
                 <span class="acc-pwd">{{ a.password }}</span>
               </button>
@@ -226,12 +226,15 @@ onBeforeUnmount(() => {
 }
 
 /* ---------- 演示账号清单（两列，省高度） ---------- */
+/* 配色全部取自 styles/tokens.css，不另造色：
+   主操作绿 #0e7a4f / 浅绿 #e4f3ea / 更浅绿 #f4faf6 / 标题深绿 #0a4a33
+   设计系统未定义「角色主题色」，四类角色统一使用顶栏 .org-role 的绿色徽标 */
 .dlg-acc {
-  border: 1px solid #e2eee7;
+  border: 1px solid #e4f3ea;
   border-radius: 10px;
-  padding: 8px 10px 9px;
+  padding: 9px 10px 10px;
   margin: 0 0 14px;
-  background: #fbfefc;
+  background: #f4faf6;
   text-align: left;
 }
 .dlg-acc-hd {
@@ -242,20 +245,18 @@ onBeforeUnmount(() => {
   font-size: 12.5px;
   font-weight: 600;
   color: #0a4a33;
-  padding: 0 2px 6px;
-  border-bottom: 1px dashed #dbe9e1;
-  margin-bottom: 5px;
+  padding: 0 2px 7px;
 }
 .dlg-acc-tip {
   font-size: 10.5px;
   font-weight: 400;
-  color: #9bb0a4;
+  color: #afbdb4;
   white-space: nowrap;
 }
 .dlg-acc-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px 8px;
+  gap: 2px 8px;
 }
 .acc-row {
   display: grid;
@@ -265,7 +266,7 @@ onBeforeUnmount(() => {
   padding: 4px 5px;
   border: 0;
   border-radius: 6px;
-  background: transparent;
+  background: #fff;
   font-family: inherit;
   cursor: pointer;
   transition: background 0.16s;
@@ -273,11 +274,12 @@ onBeforeUnmount(() => {
   overflow: hidden;
 }
 .acc-row:hover {
-  background: #eaf6ef;
+  background: #e4f3ea;
 }
 .acc-role {
   font-size: 10.5px;
   font-weight: 600;
+  line-height: 1.5;
   text-align: center;
   padding: 1px 0;
   border-radius: 4px;
@@ -285,14 +287,10 @@ onBeforeUnmount(() => {
   background: #e4f3ea;
   white-space: nowrap;
 }
-.acc-role.r-admin { color: #6b4e9e; background: #efe9f9; }
-.acc-role.r-county { color: #1b5e93; background: #e5f0fa; }
-.acc-role.r-town  { color: #8a6320; background: #fbf0da; }
-.acc-role.r-village { color: #0e7a4f; background: #e4f3ea; }
 .acc-user {
   font-family: "SF Mono", Consolas, "Courier New", monospace;
   font-size: 11.5px;
-  color: #1b2733;
+  color: #172033;
   letter-spacing: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -301,7 +299,7 @@ onBeforeUnmount(() => {
 .acc-pwd {
   font-family: "SF Mono", Consolas, "Courier New", monospace;
   font-size: 10.5px;
-  color: #9bb0a4;
+  color: #afbdb4;
   white-space: nowrap;
 }
 
