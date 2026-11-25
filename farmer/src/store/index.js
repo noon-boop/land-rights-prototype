@@ -149,11 +149,13 @@ const progress = computed(() => {
   return Math.round((sum / vals.length) * 100)
 })
 
+/** 面积累加保留 2 位小数：浮点相加会出现 10.600000000000001 */
+const round2 = (v) => Math.round(v * 100) / 100
 const totalArea = computed(() =>
-  state.lands.filter((l) => !l.deleted).reduce((a, l) => a + Number(l.area || 0), 0),
+  round2(state.lands.filter((l) => !l.deleted).reduce((a, l) => a + Number(l.area || 0), 0)),
 )
 const totalMeasured = computed(() =>
-  state.lands.filter((l) => !l.deleted).reduce((a, l) => a + (parseFloat(l.measuredArea) || 0), 0),
+  round2(state.lands.filter((l) => !l.deleted).reduce((a, l) => a + (parseFloat(l.measuredArea) || 0), 0)),
 )
 
 const membersActive = computed(() => state.members.filter((m) => !m.deleted))

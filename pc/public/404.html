@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>页面不存在 · 土地确权线上确认原型</title>
+    <script>
+      // 单页应用用 hash 路由，正常访问不会走到这里。
+      // 未匹配的路径统一送回站点首页，避免出现空白页。
+      location.replace('/land-rights-prototype/')
+    </script>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        background: #f3f5f8;
+        color: #172033;
+      }
+      .box { text-align: center; }
+      .t { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+      .d { font-size: 13px; color: #5b6472; }
+      a { color: #0e7a4f; }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="t">页面不存在</div>
+      <div class="d">正在返回首页，若未自动跳转请点 <a href="/land-rights-prototype/">这里</a>。</div>
+    </div>
+  </body>
+</html>
