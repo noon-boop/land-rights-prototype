@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import terraces from '@/assets/login-terraces.jpg'
@@ -15,6 +15,7 @@ const showPwd = ref(false)
 const remember = ref(true)
 
 const REMEMBER_KEY = 'land:remember-username'
+const PREFILL_KEY = 'land:prefill-account'
 
 /* ---------------- toast（与参考稿一致的轻提示） ---------------- */
 const toast = ref('')
@@ -25,9 +26,43 @@ function showToast(msg) {
   toastTimer = setTimeout(() => (toast.value = ''), 2000)
 }
 
+/** 演示提示卡片点选账号 → 自动填入（事件 + localStorage 双通道，刷新也能兜住） */
+function applyPrefill(p) {
+  if (!p || !p.username) return
+  form.username = p.username
+  form.password = p.password || '123456'
+  err.value = ''
+  showToast(`已填入演示账号：${p.username}`)
+}
+
+function onPrefillEvent(e) {
+  applyPrefill(e && e.detail)
+}
+
 onMounted(() => {
+  // 1) 来自演示提示卡片的点选（同一页面内点击，靠自定义事件即时生效）
+  window.addEventListener('land:prefill', onPrefillEvent)
+
+  // 2) 页面新开/刷新时读取未消费的预填信息
+  let pending = null
+  try {
+    pending = JSON.parse(localStorage.getItem(PREFILL_KEY) || 'null')
+    localStorage.removeItem(PREFILL_KEY)
+  } catch (e) {
+    pending = null
+  }
+  if (pending && pending.username) {
+    applyPrefill(pending)
+    return
+  }
+
+  // 3) 否则沿用「记住账号」
   const saved = localStorage.getItem(REMEMBER_KEY)
   if (saved) form.username = saved
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('land:prefill', onPrefillEvent)
 })
 
 /* ---------------- 登录 ---------------- */

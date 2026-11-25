@@ -27,6 +27,26 @@
             因违规录入真实数据所产生的一切后果由操作者自行承担。
           </p>
 
+          <div class="dlg-acc">
+            <div class="dlg-acc-hd">
+              <span>可登录演示账号</span>
+              <span class="dlg-acc-tip">密码均为 123456 · 点一行自动填入</span>
+            </div>
+            <div class="dlg-acc-list">
+              <button
+                v-for="a in ACCOUNTS"
+                :key="a.username"
+                class="acc-row"
+                type="button"
+                @click="useAccount(a)"
+              >
+                <span class="acc-role" :class="'r-' + a.userType.toLowerCase()">{{ a.roleLabel }}</span>
+                <span class="acc-user">{{ a.username }}</span>
+                <span class="acc-pwd">{{ a.password }}</span>
+              </button>
+            </div>
+          </div>
+
           <button class="dlg-btn" type="button" @click="close">我已知晓</button>
           <div class="dlg-foot">农村土地承包经营权确权登记 · 演示版</div>
         </div>
@@ -36,15 +56,42 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ACCOUNTS as RAW_ACCOUNTS } from '@/mock/dataset'
 
 /* ============================================================
    演示环境提示
    ------------------------------------------------------------
    - 每次「打开网页」（新标签页 / 新会话）弹一次，同一会话内刷新不重复打扰
    - 若要每次刷新都弹：删掉 sessionStorage 的判断与写入即可
+   - 卡片内列出可登录账号，点一行自动填入登录表单
    ============================================================ */
 const SESSION_KEY = 'land:demo-notice-ack'
+const PREFILL_KEY = 'land:prefill-account'
 const showNotice = ref(false)
+
+/** 角色中文名：ADMIN 管理员 / COUNTY 县级 / TOWN 镇级 / VILLAGE 村级 */
+const ROLE_LABEL = { ADMIN: '管理员', COUNTY: '县级', TOWN: '镇级', VILLAGE: '村级' }
+
+/** 演示账号清单（顺序：管理员 → 县级 → 镇级 → 村级，村级三个村都列出） */
+const ACCOUNTS = RAW_ACCOUNTS.map((a) => ({
+  username: a.username,
+  password: a.password,
+  userType: a.userType,
+  roleLabel: ROLE_LABEL[a.userType] || a.userType,
+  orgLabel: a.orgLabel,
+}))
+
+/** 点击账号：写入待填入信息 → 通知登录页 → 关闭弹框 */
+function useAccount(a) {
+  const payload = JSON.stringify({ username: a.username, password: a.password })
+  try {
+    localStorage.setItem(PREFILL_KEY, payload)
+  } catch (e) {
+    /* 隐私模式忽略 */
+  }
+  close()
+  window.dispatchEvent(new CustomEvent('land:prefill', { detail: { username: a.username, password: a.password } }))
+}
 
 function close() {
   showNotice.value = false
@@ -106,14 +153,16 @@ onBeforeUnmount(() => {
 
 .dlg {
   width: 100%;
-  max-width: 420px;
+  max-width: 460px;
   background: #fff;
   border-radius: 16px;
-  padding: 30px 30px 22px;
+  padding: 22px 24px 18px;
   text-align: center;
   box-shadow: 0 24px 60px rgba(10, 74, 51, 0.22), 0 4px 14px rgba(10, 74, 51, 0.08);
   font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
   animation: dlg-pop 0.26s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
 @keyframes dlg-pop {
@@ -128,9 +177,9 @@ onBeforeUnmount(() => {
 }
 
 .dlg-icon {
-  width: 54px;
-  height: 54px;
-  margin: 0 auto 16px;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 10px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -139,24 +188,24 @@ onBeforeUnmount(() => {
   color: #0e7a4f;
 }
 .dlg-icon svg {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
 }
 
 .dlg-title {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
   color: #152a21;
   letter-spacing: 0.5px;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
 
 .dlg-text {
-  font-size: 15px;
-  line-height: 1.9;
+  font-size: 14.5px;
+  line-height: 1.75;
   color: #0e7a4f;
   font-weight: 600;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
 .dlg-text b {
   color: #0a4a33;
@@ -165,20 +214,100 @@ onBeforeUnmount(() => {
 }
 
 .dlg-sub {
-  font-size: 12.5px;
-  line-height: 1.85;
+  font-size: 12px;
+  line-height: 1.7;
   color: #71857a;
   background: #f4faf6;
   border-left: 3px solid #38b57f;
   border-radius: 0 8px 8px 0;
-  padding: 10px 14px;
+  padding: 8px 13px;
   text-align: left;
-  margin: 0 0 22px;
+  margin: 0 0 12px;
+}
+
+/* ---------- 演示账号清单（两列，省高度） ---------- */
+.dlg-acc {
+  border: 1px solid #e2eee7;
+  border-radius: 10px;
+  padding: 8px 10px 9px;
+  margin: 0 0 14px;
+  background: #fbfefc;
+  text-align: left;
+}
+.dlg-acc-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0a4a33;
+  padding: 0 2px 6px;
+  border-bottom: 1px dashed #dbe9e1;
+  margin-bottom: 5px;
+}
+.dlg-acc-tip {
+  font-size: 10.5px;
+  font-weight: 400;
+  color: #9bb0a4;
+  white-space: nowrap;
+}
+.dlg-acc-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px 8px;
+}
+.acc-row {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 5px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.16s;
+  text-align: left;
+  overflow: hidden;
+}
+.acc-row:hover {
+  background: #eaf6ef;
+}
+.acc-role {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: 4px;
+  color: #0e7a4f;
+  background: #e4f3ea;
+  white-space: nowrap;
+}
+.acc-role.r-admin { color: #6b4e9e; background: #efe9f9; }
+.acc-role.r-county { color: #1b5e93; background: #e5f0fa; }
+.acc-role.r-town  { color: #8a6320; background: #fbf0da; }
+.acc-role.r-village { color: #0e7a4f; background: #e4f3ea; }
+.acc-user {
+  font-family: "SF Mono", Consolas, "Courier New", monospace;
+  font-size: 11.5px;
+  color: #1b2733;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.acc-pwd {
+  font-family: "SF Mono", Consolas, "Courier New", monospace;
+  font-size: 10.5px;
+  color: #9bb0a4;
+  white-space: nowrap;
 }
 
 .dlg-btn {
   width: 100%;
-  height: 46px;
+  height: 44px;
   border: 0;
   border-radius: 10px;
   background: linear-gradient(115deg, #0e7a4f, #1b9a67);
@@ -200,7 +329,7 @@ onBeforeUnmount(() => {
 }
 
 .dlg-foot {
-  margin-top: 14px;
+  margin-top: 10px;
   font-size: 11px;
   color: #afbdb4;
   letter-spacing: 0.5px;
