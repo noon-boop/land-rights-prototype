@@ -19,5 +19,12 @@
     },
     "usingComponents": true
   },
+  "h5": {
+    "title": "土地确权线上确认 · 农户端",
+    "router": {
+      "mode": "hash",
+      "base": "/land-rights-prototype/farmer/"
+    }
+  },
   "vueVersion": "3"
 }

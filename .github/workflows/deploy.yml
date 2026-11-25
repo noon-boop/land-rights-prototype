@@ -1,0 +1,80 @@
+name: Deploy prototypes to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            pc/package-lock.json
+            farmer/package-lock.json
+
+      # ---------- PC 端 ----------
+      - name: Install PC deps
+        working-directory: pc
+        run: npm ci
+
+      - name: Build PC
+        working-directory: pc
+        run: npm run build
+
+      # ---------- 农户端 H5 ----------
+      - name: Install farmer deps
+        working-directory: farmer
+        run: npm ci
+
+      - name: Build farmer H5
+        working-directory: farmer
+        run: npx uni build -p h5
+
+      # ---------- 组装站点 ----------
+      # 根目录放 PC 产物，/farmer/ 放农户端产物
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp -r pc/dist/. _site/
+          mkdir -p _site/farmer
+          cp -r farmer/dist/build/h5/. _site/farmer/
+          cp _site/index.html _site/404.html
+          # .nojekyll 关掉 Jekyll：农户端 JS 里有连续双花括号，会被 Liquid 当模板解析
+          touch _site/.nojekyll
+          echo "--- 站点结构 ---"
+          ls -la _site
+          echo "--- farmer ---"
+          ls -la _site/farmer
+          du -sh _site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
