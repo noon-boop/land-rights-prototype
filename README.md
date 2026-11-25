@@ -61,9 +61,21 @@ VITE_USE_MOCK=false
 
 ---
 
-## 五、Cloudflare Pages 部署配置
+## 五、在线演示与部署
 
-仓库根目录是 monorepo（`pc/` + `farmer/`），所以创建 Pages 项目时**必须设置 Root directory**：
+### 已上线（GitHub Pages）
+
+**https://noon-boop.github.io/land-rights-prototype/**
+
+- 源码在 `main` 分支的 `pc/` 目录
+- 部署分支 `gh-pages` 存放构建产物（由 `pc/dist` 生成，含 `404.html` 与 `.nojekyll`）
+- 更新方式：改完 `main` 的代码后重新构建，把 `dist` 推到 `gh-pages` 即可
+
+### 另一种方式：Cloudflare Pages（可选）
+
+国内网络访问 `dash.cloudflare.com` 常被 Turnstile 人机验证卡住（`challenges.cloudflare.com` 不通，验证框会一直转圈），需要代理才能进控制台。若能进，配置如下：
+
+仓库是 monorepo（`pc/` + `farmer/`），创建项目时**必须设置 Root directory**：
 
 | 配置项 | 值 |
 |---|---|
@@ -71,15 +83,14 @@ VITE_USE_MOCK=false
 | **Root directory** | `pc` |
 | Build command | `npm run build` |
 | Build output directory | `dist` |
-| Node version（环境变量） | `NODE_VERSION` = `20` |
 
 要点说明：
 
-- `vite.config.js` 里 `base` 在生产模式是 `'./'`，路由用 hash（`createWebHashHistory`），所以部署在 Pages 的根路径或任意子路径都能正常打开，不用额外配 404 重写。
-- 不需要环境变量 `VITE_USE_MOCK`——`.env` 里已默认 `true` 并随仓库提交。
-- **Node 20** 是必需的：Vite 5 在 Node 18 以下会报错，Cloudflare Pages 默认版本可能偏低，务必显式设 `NODE_VERSION`。
+- `vite.config.js` 里 `base` 在生产模式是 `'./'`，路由用 hash（`createWebHashHistory`），所以部署在根路径或任意子路径都能正常打开，不用配 404 重写。
+- `.env` 已默认 `VITE_USE_MOCK=true` 并随仓库提交，无需在平台另配环境变量。
+- Node 版本：仓库带 `pc/.nvmrc`（20）与 `package-lock.json`，本地已用 `npm ci` 在干净目录验证过构建可复现。
 
-农户端（`farmer/`）若要单独建一个 Pages 项目：Root directory 填 `farmer`，Build command `npm run build:h5`，输出目录 `dist/build/h5`（未验证，可能需调整）。
+农户端（`farmer/`）若要单独部署：Root directory 填 `farmer`，Build command `npm run build:h5`，输出目录 `dist/build/h5`（未验证）。
 
 ---
 
