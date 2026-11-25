@@ -1,0 +1,7 @@
+# 统一换行，避免 Windows 下 CRLF 进仓库导致 Cloudflare 构建脚本异常
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.zip binary
+*.ico binary

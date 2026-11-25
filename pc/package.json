@@ -1,0 +1,21 @@
+{
+  "name": "land-rights-pc-platform",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "土地确权线上确认系统 - PC 管理平台（村/镇/县单客户端，角色驱动菜单）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pinia": "^2.1.7",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.2.0"
+  }
+}

@@ -1,0 +1,63 @@
+/* ============================================================
+   设计系统令牌（村级管理平台）
+   新版 UI：农田深绿（深色面）+ 农田绿（主操作）+ 柔金（强调）
+   与登录页「梯田绿」视觉统一
+   ============================================================ */
+:root {
+  /* 主色：农田绿（主操作） */
+  --color-primary: #0e7a4f;
+  --color-primary-mid: #0e7a4f;
+  --color-primary-light: #e4f3ea;
+  --color-primary-lighter: #f4faf6;
+  --color-primary-dark: #0c6441;
+
+  /* 深林绿（侧边栏 / 深色背景） */
+  --color-navy: #0a4a33;
+  --color-navy-2: #0c6441;
+
+  /* 强调色（柔金，全局统一） */
+  --color-accent: #c9a45c;
+  --color-accent-light: #f7efdd;
+  --color-accent-text: #8a6e33;
+
+  /* 语义色（全局统一） */
+  --color-success: #15803D;
+  --color-success-light: #E7F5EC;
+  --color-warning: #c9a45c;
+  --color-warning-light: #f7efdd;
+  --color-danger: #DC2626;
+  --color-danger-light: #FDEBEB;
+  --color-info: #2563EB;
+  --color-info-light: #E8F0FE;
+
+  /* 中性灰阶（全局统一） */
+  --color-bg: #F3F5F8;
+  --color-card: #FFFFFF;
+  --color-text-primary: #172033;
+  --color-text-secondary: #5B6472;
+  --color-text-tertiary: #98A2B3;
+  --color-text-placeholder: #B8C0CC;
+  --color-border: #E8EBEF;
+  --color-border-strong: #D6DBE2;
+  --color-divider: #F0F2F5;
+
+  /* 字体 */
+  --font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(10, 74, 51, 0.04), 0 1px 6px rgba(10, 74, 51, 0.05);
+  --shadow-md: 0 4px 12px rgba(10, 74, 51, 0.08);
+  --shadow-lg: 0 12px 32px rgba(10, 74, 51, 0.14);
+
+  --transition: 0.22s ease;
+
+  /* 布局尺寸 */
+  --sidebar-w: 232px;
+  --header-h: 60px;
+}

@@ -1,0 +1,78 @@
+/* =====================================================================
+   设计系统令牌 (Design Tokens) — 农户端小程序（农村土地承包延期确权）
+   新版 UI：青碧（主操作）+ 海军蓝（渐变头 / 深色）+ 琥珀金（强调）
+   与村级/乡镇/县级三端保持同一设计系统
+   ===================================================================== */
+:root, page {
+  /* ---------- Primary — 青碧（主操作） ---------- */
+  --color-primary: #0E7490;
+  --color-primary-mid: #0E7490;
+  --color-primary-light: #E0F2F5;
+  --color-primary-lighter: #F2FAFC;
+  --color-primary-dark: #0B5E75;
+
+  /* ---------- 深海军蓝（渐变头 / 深色背景） ---------- */
+  --color-navy: #0F2A43;
+  --color-navy-2: #143A5C;
+
+  /* ---------- Accent — 琥珀金（全局统一） ---------- */
+  --color-accent: #C9932B;
+  --color-accent-light: #FBF3E3;
+  --color-accent-text: #8A6A1F;
+
+  /* ---------- Semantic（全局统一） ---------- */
+  --color-success: #15803D;
+  --color-success-light: #E7F5EC;
+  --color-warning: #C9932B;
+  --color-warning-light: #FBF3E3;
+  --color-danger: #DC2626;
+  --color-danger-light: #FDEBEB;
+  --color-info: #2563EB;
+  --color-info-light: #E8F0FE;
+
+  /* ---------- Neutral / Gray ---------- */
+  --color-bg: #F3F5F8;
+  --color-bg-outer: #EDEEF0;
+  --color-card: #FFFFFF;
+  --color-text-primary: #172033;
+  --color-text-secondary: #5B6472;
+  --color-text-tertiary: #98A2B3;
+  --color-text-placeholder: #B8C0CC;
+  --color-border: #E8EBEF;
+  --color-border-strong: #D6DBE2;
+  --color-divider: #F0F2F5;
+
+  /* ---------- Typography ---------- */
+  --font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Roboto Mono', monospace;
+
+  /* ---------- Radius（移动：sm6/md10/lg14/xl20） ---------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* ---------- Shadow ---------- */
+  --shadow-sm: 0 1px 2px rgba(15, 42, 67, 0.04), 0 1px 6px rgba(15, 42, 67, 0.05);
+  --shadow-md: 0 4px 12px rgba(15, 42, 67, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 42, 67, 0.14);
+  --shadow-fab: 0 4px 12px rgba(14, 116, 144, 0.35);
+
+  /* ---------- Spacing（8px 网格子集） ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
+  /* ---------- Layout ---------- */
+  --bottom-tab-h: 68px;
+  --bottom-action-h: 70px;
+  --status-bar-h: 44px;
+  --nav-bar-h: 44px;
+  --max-app-w: 430px; /* 桌面端手机框最大宽度 */
+
+  /* ---------- Transition ---------- */
+  --transition: 0.25s ease;
+}

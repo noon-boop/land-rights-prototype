@@ -1,0 +1,58 @@
+<script setup>
+import { computed } from 'vue'
+// 统一图标组件：viewBox 24x24，svg dataURI（小程序不支持内联 svg / currentColor）
+// 颜色由 color prop 显式传入（dataURI 内无法用 CSS currentColor）
+const props = defineProps({
+  name: { type: String, required: true },
+  size: { type: [Number, String], default: 24 },
+  color: { type: String, default: '#0E7490' },
+})
+
+const paths = {
+  home: 'M12 3l-10 9h3v9h6v-6h2v6h6v-9h3z',
+  lands: 'M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z',
+  user: 'M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z',
+  back: 'M15 4l-8 8 8 8V4z',
+  search: 'M15.5 14h-.8l-.3-.3a6.5 6.5 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z',
+  plus: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z',
+  edit: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+  check: 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',
+  location: 'M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z',
+  field: 'M12 2L2 7v2h20V7L12 2zM4 10v9h2v-9H4zm5 0v9h2v-9H9zm5 0v9h2v-9h-2zm5 0v9h2v-9h-2z',
+  people: 'M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm0 2c-2.7 0-6 1.3-6 3v2h12v-2c0-1.7-3.3-3-6-3zm8 0c-.3 0-.7 0-1 .1 1.1.8 1.5 1.8 1.5 2.9v2H22v-2c0-1.7-3.3-3-6-3z',
+  info: 'M9 1a8 8 0 1 0 0 16A8 8 0 0 0 9 1zm0 7a1 1 0 0 1 1 1v4a1 1 0 0 1-2 0V9a1 1 0 0 1 1-1zm0-4a1 1 0 1 1 0 2 1 1 0 0 1 0-2z',
+  camera: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6.5A2.5 2.5 0 1 1 12 10a2.5 2.5 0 0 1 0 4.5zM9 2L7.2 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3.2L15 2H9z',
+  right: 'M6 3l5 5-5 5V3z',
+  lock: 'M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9V6z',
+  pen: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+  doc: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z',
+  warning: 'M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z',
+  refresh: 'M17.65 6.35A8 8 0 1 0 19 13h-2a6 6 0 1 1-1.76-4.24L13 10h5V5l-1.35 1.35z',
+  shield: 'M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z',
+  phone: 'M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .6 3.6 1 1 0 0 1-.25 1l-2.25 2.2z',
+  down: 'M7 10l5 5 5-5z',
+  trash: 'M6 7h12l-1 14H7L6 7zm3-3h6l1 2H8l1-2zM4 7h16v2H4z',
+  close: 'M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z',
+  success: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.2 14.2L6.5 11.9l1.4-1.4 2.9 2.9 5.3-5.3 1.4 1.4-6.7 6.7z',
+  wechat: 'M9 4C5.1 4 2 6.6 2 9.8c0 1.8 1 3.4 2.6 4.5L4 16.5l2.4-1.2c.8.2 1.6.3 2.4.3h.5a5.2 5.2 0 0 1-.2-1.4c0-3 2.9-5.4 6.5-5.4h.6C15.3 6 12.4 4 9 4zm-2.4 3.6a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4.8 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm2.6 4.8c-3.2 0-5.8 2.3-5.8 5.1 0 2.8 2.6 5.1 5.8 5.1 1 0 2-.2 2.8-.7L20 21l-.6-2c1.6-.9 2.6-2.4 2.6-4.1 0-2.8-2.6-5.1-5.8-5.1zm-1.9 3a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8zm3.8 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z',
+}
+
+const src = computed(() => {
+  const d = paths[props.name] || ''
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${props.color}"><path d="${d}"/></svg>`
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg)
+})
+</script>
+
+<template>
+  <image
+    class="icon-img"
+    :src="src"
+    :style="{ width: size + 'px', height: size + 'px' }"
+    mode="aspectFit"
+  />
+</template>
+
+<style scoped>
+.icon-img { display: block; flex-shrink: 0; }
+</style>

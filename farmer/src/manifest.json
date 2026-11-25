@@ -1,0 +1,23 @@
+{
+  "name": "project-farmer-xcx-uniapp-java",
+  "appid": "wxabd653fc2290cc8b",
+  "description": "土地确权线上确认系统 - 用户端（微信小程序）",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true,
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3
+  },
+  "mp-weixin": {
+    "appid": "wxabd653fc2290cc8b",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "minified": true
+    },
+    "usingComponents": true
+  },
+  "vueVersion": "3"
+}

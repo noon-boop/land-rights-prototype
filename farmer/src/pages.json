@@ -1,0 +1,138 @@
+{
+  "pages": [
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/home/home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/basic-info/basic-info",
+      "style": {
+        "navigationBarTitleText": "基本信息"
+      }
+    },
+    {
+      "path": "pages/family/family",
+      "style": {
+        "navigationBarTitleText": "家庭成员情况"
+      }
+    },
+    {
+      "path": "pages/family-edit/family-edit",
+      "style": {
+        "navigationBarTitleText": "编辑家庭成员"
+      }
+    },
+    {
+      "path": "pages/lands/lands",
+      "style": {
+        "navigationBarTitleText": "承包地情况"
+      }
+    },
+    {
+      "path": "pages/my-lands/my-lands",
+      "style": {
+        "navigationBarTitleText": "我的地块"
+      }
+    },
+    {
+      "path": "pages/my-land-detail/my-land-detail",
+      "style": {
+        "navigationBarTitleText": "地块详情"
+      }
+    },
+    {
+      "path": "pages/land-detail/land-detail",
+      "style": {
+        "navigationBarTitleText": "地块详情"
+      }
+    },
+    {
+      "path": "pages/land-edit/land-edit",
+      "style": {
+        "navigationBarTitleText": "编辑地块"
+      }
+    },
+    {
+      "path": "pages/land-split/land-split",
+      "style": {
+        "navigationBarTitleText": "地块分割登记"
+      }
+    },
+    {
+      "path": "pages/password/password",
+      "style": {
+        "navigationBarTitleText": "修改密码"
+      }
+    },
+    {
+      "path": "pages/split-apply/split-apply",
+      "style": {
+        "navigationBarTitleText": "分户申请"
+      }
+    },
+    {
+      "path": "pages/changes/changes",
+      "style": {
+        "navigationBarTitleText": "变更与诉求"
+      }
+    },
+    {
+      "path": "pages/confirm/confirm",
+      "style": {
+        "navigationBarTitleText": "确认与提交"
+      }
+    },
+    {
+      "path": "pages/final-confirm/final-confirm",
+      "style": {
+        "navigationBarTitleText": "最终确认"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarBackgroundColor": "#0E7490",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "土地确权线上确认",
+    "backgroundColor": "#F5F6F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#0E7490",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/my-lands/my-lands",
+        "text": "我的地块",
+        "iconPath": "static/tabbar/lands.png",
+        "selectedIconPath": "static/tabbar/lands-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/user-active.png"
+      }
+    ]
+  }
+}
